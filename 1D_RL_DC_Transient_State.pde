@@ -2,7 +2,7 @@
 !		Transient state RL witch DC voltage
 !		
 !		Mail : dawid151@gmail.com
-!		Flex ver. V.7.18/W64
+!		FlexPDE ver. V.7.18/W64
 !		Script ver. 1.00
 !
 !		Description:
