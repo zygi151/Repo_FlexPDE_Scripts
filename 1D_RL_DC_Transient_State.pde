@@ -9,12 +9,12 @@
 !			The script shows the voltage waveforms in the RL circuit after switching on the DC voltage.
 !
 
-TITLE "1D_RL_DC"
+TITLE "1D_RL_DC_Transient_State"
 
 COORDINATES 	Cartesian1
 
 VARIABLES
-      Uout 	( Threshold=0.01 )
+      Uout 	( Threshold=0.01 ) 	! Unnecessary
     , Uin	( Threshold=0.01 )
     , Ul 		( Threshold=0.01 )
     , Ur		( Threshold=0.01 )
