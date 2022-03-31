@@ -1,2 +1,12 @@
 
 *.bak
+1D Script/1D_RL_DC Transient State_output/1D_RL_DC Transient State_debug.txt
+1D Script/1D_RC_DC Transient State_output/1D_RC_DC Transient State_debug.txt
+*.pg7
+*.png
+*.xfr
+2D Script/2.1.1.Isolated point charge_output/2.1.1.Isolated point charge_log.txt
+2D Script/2.1.1.Isolated point charge_output/2.1.1.Isolated point charge_debug.txt
+2D Script/2.1.2.Two point charge_output/2.1.2.Two point charge_debug.txt
+Header to scripts.txt
+2D Script/2.2.1.Plate capaciator_output/2.2.1.Plate capaciator_debug.txt
