@@ -8,5 +8,5 @@ Script to solved Partial Differential Equation problem using FlexPDE.
 
 2D Scripts :
 	Isolated point charge
-	Two point charge
+	Two point charge</br>
 	Plate capaciator
