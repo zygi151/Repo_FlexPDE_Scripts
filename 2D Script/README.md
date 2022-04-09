@@ -4,7 +4,7 @@ Script to solved Partial Differential Equation problem using FlexPDE.
 
 	I would try make a script which I show an electrostatic, and magnetostatic field.
 
-Most scripts is based on the book below, thats why name of scripts begining at number which are chapters in a book.
+	Most scripts is based on the book below, thats why name of scripts begining at number which are chapters in a book.
 
 Book name:
    Elektrotechnika teoretyczna 
