@@ -1,3 +1,4 @@
+<pre>
 # Repository of FlexPDE Scripts
 
 Script to solved Partial Differential Equation problem using FlexPDE.
@@ -7,6 +8,8 @@ Script to solved Partial Differential Equation problem using FlexPDE.
 	Transient state in RC circuit - connect const DC voltage, and after disconnect.
 
 2D Scripts :
-	Isolated point charge
-	Two point charge
+	One isolated point charge
+	Two point charge ver.A - non variables and equations section
+	Two point charge ver.B - Using variables and equations section, and boundary condition value
 	Plate capaciator
+</pre>
