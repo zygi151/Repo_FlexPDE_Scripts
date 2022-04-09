@@ -73,9 +73,6 @@ SUMMARY as 'Data:'
      report(' ') { new line - only for better view }
      report( q1 ) as 'Q1 [ C ] '
      report( q2 ) as 'Q2 [ C ] '
-     
- 	 report(' ') { new line - only for better view }
-     report( val(Em, 0,0) )
-     report( val(Em*q2, 0,0) )     
+
 END
 
