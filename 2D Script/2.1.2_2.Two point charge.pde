@@ -3,14 +3,14 @@
 !		Mail : dawid151@gmail.com			! Mail to me if you see something wrong in this script
 !		
 !		FlexPDE Ver. V.7.20 / W64 3D
-!		Script Ver. 1.0
+!		Script Ver. 1.00
 !
 !		Github : https://github.com/zygi151/Repo_FlexPDE_Scripts
 !
 !		Description:
 !			Scripts show electrostatic field around 2 charge point using :
 !			- variables and equations section
-!			- boundary condition value( u ) =
+!			- boundary condition value( u ) = value
 
 TITLE 								         
    'Electrostatic field around two charge point'	
