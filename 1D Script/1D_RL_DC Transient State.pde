@@ -1,106 +1,73 @@
 !		1D_RL_DC_Transient_State
 !		
-!		Mail : dawid151@gmail.com			! Mail to me if you see something wrong in this script
+!		Mail : dawid151@gmail.com			
 !		
-!		FlexPDE Ver. V.7.18/W64 Lite
-!		Script Ver. 1.02
+!		FlexPDE 	Ver. Lite 7.20 / W64 3D
+!		Script 		Ver. 1.06
 !
-!		Github : https://github.com/zygi151/Repo_FlexPDE_Scripts
+!		Github: 
+!			https://github.com/zygi151/Repo_FlexPDE_Scripts
 !
 !		Description:
-!			The script shows how change voltage on Resistor - coil, after connection const DC Voltage.
-!
-! 		TO DO:
-!			Comment ?
+!			Script shows a characteristic in Resistor Coil serial circuit.
 
 TITLE "1D_RL_DC_Transient_State"
 
 COORDINATES 	Cartesian1
 
 VARIABLES
-      Uout 	( Threshold=0.01 ) 	! Unnecessary
-    , Uin	( Threshold=0.01 )
-    , Ul 		( Threshold=0.01 )
-    , Ur		( Threshold=0.01 )
-    , i			( Threshold=0.01 )
+    , Uin	( Threshold=0.01 )	! DC input voltage
+    , UL		( Threshold=0.01 )	! Coil voltage
+    , Ur		( Threshold=0.01 )	! Resistor voltage
+    , i			( Threshold=0.01 )	! Current 
     
     
 DEFINITIONS	
-
-! RL - Example parameters
-						R = 4 			! [ ohm ]			 
-						L = 50e-3 	! [ mH ]
-
-! Other Parametr                        
-						Twsp = 8 		! Time scale factor...
-                      	Scale = 2e-3  	! Zoom on the.... something ( look at down )
-                        
+! Example parameters for Resistor and Coil
+	R 		= 4 													!	[ ohm ]			 
+    L 			= 50e-3 											!	[ mH ]
+	talu 		= L / R																			! Time const in RL circuit
+    Tconst = ( talu * 7 )																	! Stady stade should be in 3 to 5 time const. Here is 7.
+    
 ! Time parametr
-Tstart = -10e-3 		T1 = 0	
-                        		T2 = Twsp*( l / r ) 	Tend = 5 / 3 * T2 
-                            	                            	Tstep = 1e-2
-                                                            
+	Tstart = -10e-3 		T1 = 0														! Start time			Timestamp1
+               	         			T2 = Tconst 			Tend 	= 2 * T2 		! Timestamp2		End time
+                            	                            		Tstep 	= 1e-2			! Step time
+                                                                
+! Scale the time courses in window											! Only for better show characteristic in window
+	Scale = 2e-3  																			
+	T_before_window 		= -1e-3
+	T_charge_window 		= T2 - Scale
+	T_discharge_window	= T2 - Scale*2
+	T_stady1_window 		= T2 - Scale*3	
+    T_stady2_window 		= T2 - Scale                                           
+
 EQUATIONS
-	Uin : Uin = ( upulse ( T - T1, T - T2 ) )
-    
-    Uout : Uin - Ul - ( Ur ) = 0
-    	Ul : Ul = Uout - ( Ur )		
-	    Ur : Ur = i * R
-    
-	i : dt ( i ) = ( ( Uin - i * r ) / L ) 
+    Uin : Uin = ( upulse ( T - T1, T - T2 ) )										! DC Voltage from T1 to T2 time
+    Ur : 	Ur = R * i 																		! Resistor voltage
+    UL: 	UL = L * dt( i )																	! Coil voltage
+    i: 		dt( i ) = ( ( Uin - Ur ) / L )													! Current
     
 BOUNDARIES  
-    	REGION 1 Start  ( Tstart )	
-                                    LINE TO ( T1 ) 
-        	    						LINE TO ( T2 ) 
-        									LINE TO  (  Tend  )
+    	REGION 1 
+            Start  ( Tstart )	
+                                    LINE TO ( T1 ) 	LINE TO ( T2 ) 	LINE TO  ( Tend )
 
 MONITORS
-    TIME Tstart TO Tend
+    TIME Tstart 		TO Tend
 
 PLOTS
-    FOR T=Tstart BY Tstep TO Tend   
-		HISTORY( Uin, Ul,  i  )	AT ( 1 )  as"#_1.Waveforms of voltages"
-        	WINDOW( 0, Tend ) 
-                
-        HISTORY( Uin, Ul,  i ) 	AT ( 1 ) as"#_2.Before connected"
-        	WINDOW ( Tstart, -1e-3 ) 		
-        
-        HISTORY( Uin , Ul, i ) 	AT ( 1 ) as "#_3.Charge phase."
-        	WINDOW ( T1, T2- Scale ) 		
-                
-        HISTORY( Ul, i  )  		AT ( 1 ) as "#_4.Stady state"
-        	WINDOW ( T2- Scale-Scale-Scale , T2-Scale )  
-            	! zmienić to
+    FOR T = Tstart 	BY Tstep TO Tend   
+    
+        HISTORY( Uin, Ul,  i ) 	AT ( 1 ) as "#_Before comutation"        	WINDOW ( Tstart, 							T_Before_window ) 		
+        HISTORY( Uin , Ul, i ) 	AT ( 1 ) as "#_Charge phase"	        		WINDOW ( T1, 								T_charge_window ) 		
+        HISTORY( Ul, i  )  		AT ( 1 ) as "#_Stady state"						WINDOW ( T_stady1_window,		T_stady2_window )  		
+        HISTORY( Ul, i )  		AT ( 1 ) as "#_Discharge phase"	       	WINDOW ( T_discharge_window, 	Tend ) 	
+        HISTORY( Uin, Ul,  i  )	AT ( 1 ) as "#_All characteristic"	        	WINDOW ( T1, 								Tend ) 
 
-        HISTORY( Ul, i )  		AT ( 1 ) as "#_5.Discharge phase"
-        	WINDOW ( T2- Scale-Scale , Tend ) 
-
-SUMMARY ("Comment__")
-	Report("Data:")
-    Report("  Uin - Input voltage")
-    Report("  Uout - Output voltage")
-    Report("   ")
-    Report("  Ur - Voltage on resistor")
-    Report("  Ul - Volgate on coil")
-    Report("    ")
-    Report("  Uout = Ur + Ul ")
-    Report("  Uout = i * r + L * d(i)/dt ")
-    Report("    ")
-    Report("#_1. All characteristics. ")
-    Report("#_2. Befor start ")
-    Report(" Time < 0 ")
-    Report(" Uin = Uout = Ul = Ur = i = 0 ")
-    Report("    ") 
-    Report("#_3. Charge phase ")
-    Report("  Time = 0, and TIme -> infinity ")
-    Report("  Uin= const = 1, i-> Uin/R ")
-    Report("    ")
-	Report("#_4. The system goes into steady state. ")
-    Report("   Time > 5 * ( L / R ) ")
-    Report("   Ur = Uin, i = E/R ")
-    Report("   ")
-    Report("#_5. Discharge phase")
-    Report("  Uin = 0, ")
-    Report("  i -> 0 ")    
+SUMMARY ("Derivation of circuit equations : ")
+	Report("Uin = Ur + UL")
+    Report("Uin = Ur + L * di( i ) /dt")
+    Report("Uin - Ur = L  * di( i ) /dt")
+    Report("di( i ) /dt = ( Uin - Ur ) / L")
 END
