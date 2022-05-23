@@ -4,5 +4,6 @@
 *.xfr
 *debug.txt
 *log.txt
+00.Testing/*
 Header to scripts.txt
 
