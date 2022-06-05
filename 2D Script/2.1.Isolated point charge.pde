@@ -3,13 +3,13 @@
 !		Mail : dawid151@gmail.com			! Mail to me if you see something wrong in this script
 !		
 !		FlexPDE Ver. V.7.20/W64
-!		Script Ver. 1.02
+!		Script Ver. 1.07
 !
 !		Github : https://github.com/zygi151/Repo_FlexPDE_Scripts
 !
 !		Description:
 !			The script demonstrate a isolated point charge and his equipotential line
-!			p.36
+!			p.36	p.46
 
 
 TITLE 											         
@@ -19,21 +19,24 @@ SELECT									{  it was unnecessary }
    spectral_colors					{ start at red end at violet }
    
 DEFINITIONS                     		{ const / var }
-   Lx = 1     		Ly = 1     			{ x and y coordinate }		{  [ unit ]  }
-   q = 1e-5 								{ value of Q } 					{  [ C ]  }
-   r0 = 1e-2     					   	 	{  }								   	{  [ unit ]  }
-   d0 = r0 * 2							{  }								   	{  [ unit ]  }
-   eps0 = 8.85e-12     				{ perm. conductivity } 		{  [ F / m ]  }
-   k = 1 / ( 4 * pi * eps0 )			{ const k  } 						{  [ m^2 / c^2 ]  }
-   V = q * k / sqrt( x^2 + y^2 )	{ Potential }
+   Lx = 1     		Ly = 1     			{ x and y coordinate }									{  [ unit ]  }
+   q = 1e-5 								{ value of Q } 												{  [ C ]  }
    
+   d0 = 1e-2 * 2						{ use to zoomed plots } 								{  [ unit ]  }
+   eps0 = 8.85e-12     				{ perm. conductivity } 									{  [ F / m ]  }
+   
+   k = 1 / ( 4 * pi * eps0 )			{ for the clarity a potential equations } 		
+   r = sqrt( x^2 + y^2 )				{ for the clarity a potential equations }
+   V = q * k / r							{ Potential at a distance r from... }				{	2.40	}
+   												{ ...point charge  }
+                                                
    E= -grad( V )       			    	{ Gradient }
    Em = magnitude( E )         	{ Magnitude of vector }
    
 BOUNDARIES
 	REGION 'Frame'
 	   START( -Lx , -Ly )  line to ( Lx , -Ly ) to ( Lx , Ly )  to ( -Lx , Ly ) close   
-   
+
 PLOTS
 { Not zoomed }																			
 		CONTOUR( Em ) log painted 	as 'Potential' 						png			! PNG - make a photo on .png format
@@ -55,4 +58,3 @@ SUMMARY as 'Data'
      report( eps0 ) 							as 'epsilon - permament conductivity'
      report( k ) 									as 'k [ (N*m^2) / (C^2) ] '  
 END
-
